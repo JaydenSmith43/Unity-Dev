@@ -8,8 +8,13 @@ using UnityEngine.UI;
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] GameObject titleUI;
+    [SerializeField] GameObject winUI;
+    [SerializeField] GameObject loseUI;
+
     [SerializeField] TMP_Text livesUI;
     [SerializeField] TMP_Text timerUI;
+    [SerializeField] TMP_Text doorText;
+
     [SerializeField] Slider healthUI;
     [SerializeField] AudioSource music;
 
@@ -27,13 +32,14 @@ public class GameManager : Singleton<GameManager>
         TITLE,
         START_GAME,
         PLAY_GAME,
-        GAME_OVER
+        GAME_OVER,
+        WIN
     }
 
     public State state = State.TITLE;
     public float timer = 0;
     public int lives = 0;
-    public const int COIN_MAX = 20;
+    //public const int COIN_MAX = 20;
     public int Lives { 
         get { return lives; } 
         set { 
@@ -74,7 +80,9 @@ public class GameManager : Singleton<GameManager>
             case State.TITLE:
 
                 titleUI.SetActive(true);
-                Cursor.lockState = CursorLockMode.None;
+                winUI.SetActive(false);
+				loseUI.SetActive(false);
+				Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 break;
             case State.START_GAME:
@@ -102,8 +110,13 @@ public class GameManager : Singleton<GameManager>
                 }
                 break;
             case State.GAME_OVER:
-                
-                break;
+				Cursor.lockState = CursorLockMode.None;
+				Cursor.visible = true;
+				loseUI.SetActive(true);
+				break;
+            case State.WIN:
+				winUI.SetActive(true);
+				break;
         }
 
         healthUI.value = health.value / 10.0f;
@@ -114,20 +127,36 @@ public class GameManager : Singleton<GameManager>
         state = State.START_GAME;
     }
 
+	public void OnTitle()
+	{
+		state = State.TITLE;
+	}
+
 	public void OnPlayerDead()
 	{
-        state = State.TITLE;
+        state = State.GAME_OVER;
         print("i dieded");
     }
 
 	public void OnAddPoints(int points)
     {
         print(points);
+        if (points >= 20)
+        {
+            doorText.text = "Touch the red circle to escape!";
+        }
     }
 
 	public void OnAddTime(int time)
 	{
 		print(time + "THIS WAS PRINTED!!");
         timer += time;
+	}
+
+    public void OnWin()
+    {
+        state = State.WIN;
+		Cursor.lockState = CursorLockMode.None;
+		Cursor.visible = true;
 	}
 }

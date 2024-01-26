@@ -6,14 +6,18 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] AudioSource coinSound;
+    [SerializeField] AudioSource timerSound;
+
     [SerializeField] TMP_Text scoreText;
     [SerializeField] FloatVariable health;
     [SerializeField] PhysicsCharacterController characterController;
+
     [Header("Events")]
     [SerializeField] IntEvent scoreEvent = default;
 	[SerializeField] IntEvent timerEvent = default;
 	[SerializeField] VoidEvent gameStartEvent = default;
     [SerializeField] VoidEvent playerDeadEvent = default;
+    [SerializeField] VoidEvent playerWinEvent = default;
 
 	private int score = 0;
     private int time = 0;
@@ -40,17 +44,24 @@ public class Player : MonoBehaviour
     {
         Score += points;
         coinSound.Play();
+        scoreEvent.RaiseEvent(Score);
     }
 
 	public void AddTime(int time)
 	{
 		timerEvent.RaiseEvent(time);
+        timerSound.Play();
 	}
 
 	private void OnStartGame()
     {
         characterController.enabled = true;
     }
+
+	public void OnWinGame()
+	{
+        playerWinEvent.RaiseEvent();
+	}
 
 	public void OnRespawn(GameObject respawn)
 	{

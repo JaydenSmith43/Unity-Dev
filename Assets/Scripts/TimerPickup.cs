@@ -15,7 +15,7 @@ public class Pickup : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out Player player)) //TryGetComponent<Player>
 		{
-            player.AddTime(5);
+            player.AddTime(10);
         }
 
         //var player = other.gameObject.GetComponent<Player>(); //then check
