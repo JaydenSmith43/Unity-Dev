@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
         characterController.Reset();
 	}
 
-	public void Damage(float damage)
+	public void ApplyDamage(float damage)
 	{
         health.value -= damage;
         if (health.value <= 0)
