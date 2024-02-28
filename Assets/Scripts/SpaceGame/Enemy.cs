@@ -10,10 +10,18 @@ public class Enemy : MonoBehaviour, IDamagable
 
 	[SerializeField] protected GameObject hitPrefab;
 	[SerializeField] protected GameObject destroyPrefab;
+	[SerializeField] private SpawnerPoints spawnerPoints;
+
 
 
 	public void ApplyDamage(float damage)
 	{
+		if (tag == "Spawner")
+		{
+			spawnerPoints.enableOnAwake = true;
+			spawnerPoints.Start();	
+		}
+		else
 		health -= damage;
 		if (health <= 0)
 		{

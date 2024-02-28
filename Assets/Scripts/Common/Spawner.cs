@@ -15,7 +15,7 @@ public abstract class Spawner : MonoBehaviour, IInteractable
 	[SerializeField] int maxSpawned = 1;
 
 	[Header("State")]
-	[SerializeField] bool enableOnAwake = true;
+	[SerializeField] public bool enableOnAwake = true; //changed to public
 	[SerializeField] VoidEvent startEvent = null;
 	[SerializeField] VoidEvent stopEvent = null;
 
@@ -35,7 +35,7 @@ public abstract class Spawner : MonoBehaviour, IInteractable
 		stopEvent?.Subscribe(SetInactive);
 	}
 
-	private void Start()
+	public void Start()
 	{
 		active = enableOnAwake;
 		if (active)

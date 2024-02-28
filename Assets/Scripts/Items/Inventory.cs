@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] Item[] items;
-    public Item currentItem { get; private set; }
+    [SerializeField] public Item[] items;
+    public Item currentItem { get; set; }
 
     void Start()
     {
